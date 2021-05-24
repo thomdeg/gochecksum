@@ -1,19 +1,17 @@
 package main
 
 import (
+	"crypto/md5"
 	"crypto/sha1"
-	"fmt"
-	"os"
-	//"crypto/sha1"
-	"hash"
 	"crypto/sha256"
 	"crypto/sha512"
-	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+	"hash"
 	"io"
 	"log"
-	"encoding/hex"
+	"os"
 )
-
 
 func main() {
 
@@ -28,9 +26,9 @@ func main() {
 	}
 
 	// array with hashes and hash-names
-	hashDescArr := [...]struct{ 
+	hashDescArr := [...]struct {
 		desc string
-		h hash.Hash 
+		h    hash.Hash
 	}{
 		{"md5   :", md5.New()},
 		{"sha1  :", sha1.New()},
@@ -42,9 +40,9 @@ func main() {
 
 	// we need a io.Writer-Slice because the 3dot-operator
 	// needs the correct type to unpack the slice later
-	wrAr    := make( []io.Writer, 0, len(hashDescArr)  )
-	for i:=0; i < len(hashDescArr); i++ {
-		wrAr = append( wrAr,  hashDescArr[i].h  )
+	wrAr := make([]io.Writer, 0, len(hashDescArr))
+	for i := 0; i < len(hashDescArr); i++ {
+		wrAr = append(wrAr, hashDescArr[i].h)
 	}
 
 	// copy infile to all the hashes:
@@ -57,23 +55,23 @@ func main() {
 	fmt.Println("file:", filename)
 
 	// setup multiWriter,  3dots instead of: io.MultiWriter(h224, h256, h512)
-	mw := io.MultiWriter( wrAr... )
-	
-	// copy input file to multiwriter 
+	mw := io.MultiWriter(wrAr...)
+
+	// copy input file to multiwriter
 	if _, err := io.Copy(mw, f); err != nil {
 		log.Fatal(err)
 	}
-	
+
 	// Results:
 	le := len(hashDescArr)
-	resultArr := make( [][]byte, 0, le )
-	for i:=0; i<le; i++ {
-		resultArr = append( resultArr,  hashDescArr[i].h.Sum(nil) )
+	resultArr := make([][]byte, 0, le)
+	for i := 0; i < le; i++ {
+		resultArr = append(resultArr, hashDescArr[i].h.Sum(nil))
 	}
 
-	for i,_ := range resultArr  {
-		fmt.Println( hashDescArr[i].desc , 
-			hex.EncodeToString( resultArr[i] ))
+	for i, _ := range resultArr {
+		fmt.Println(hashDescArr[i].desc,
+			hex.EncodeToString(resultArr[i]))
 	}
 
 	fmt.Println("-------------")
@@ -83,17 +81,17 @@ func main() {
 }
 
 func mySha256Test() {
-	
+
 	f, err := os.Open(os.Args[1])
 	if err != nil {
-	  log.Fatal(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
-  
+
 	h256 := sha256.New()
 	if _, err := io.Copy(h256, f); err != nil {
-	  log.Fatal(err)
+		log.Fatal(err)
 	}
-  
-	fmt.Printf("%x \n" , h256.Sum(nil))	
+
+	fmt.Printf("%x \n", h256.Sum(nil))
 }
