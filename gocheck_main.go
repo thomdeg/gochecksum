@@ -52,15 +52,19 @@ func main() {
 	}
 	defer f.Close()
 
-	fmt.Println("file:", filename)
+	fmt.Println("  file:", filename)
 
 	// setup multiWriter,  3dots instead of: io.MultiWriter(h224, h256, h512)
 	mw := io.MultiWriter(wrAr...)
 
 	// copy input file to multiwriter
-	if _, err := io.Copy(mw, f); err != nil {
+	if written, err := io.Copy(mw, f); err != nil {
 		log.Fatal(err)
+	} else {
+		fmt.Println("length:", written)
 	}
+	
+	
 
 	// Results:
 	le := len(hashDescArr)
