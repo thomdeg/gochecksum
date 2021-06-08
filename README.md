@@ -1,5 +1,5 @@
 # gochecksum
-A tiny multiplatform tool to calculate file checksums in Go (golang). Can help to verify downloads.
+A tiny multiplatform tool to calculate file checksums in Go (golang). It can help to verify downloaded files.
 
 
 ### Build
