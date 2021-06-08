@@ -8,6 +8,18 @@ A tiny multiplatform tool to calculate file checksums in Go (golang). It can hel
     
 ### Usage
 
+    $ ./gochecksum   your_file_name
+    file: your_file_name
+    length: 1845
+    md5   : 81d6e526ffb7f2dca4205753b5735591
+    sha1  : db053bf4b19cb76e965d4ccc1da5682e23328b99
+    sha224: cba06354079fe94fb1dc399cd55c2cb75f1dce4e8f21593ff57d2801
+    sha256: 42333a3fb4eee2404d56b45dcad7a469073f8d8d135148e9c9e4bb8945044093
+    sha384: cb1d6913872f172311cb2d317bf150ec5c5a5d242698a695da0e99ea4ed24bd01333e68e328ea4613a89474e2f8d00a0
+    sha512: 3d207525b9b2f742e7ed53f699d5e67819a3cfc40f5ff88b9d473b0625ac47c6e693add08f747522e968a34dd924b3e2cae159460dbc9e49a7416e865bb85085
+    -------------
+
+    
 We can test the compiled program on its source code:
 
     $ ./gochecksum gocheck_main.go
